@@ -1,1 +1,532 @@
-<!DOCTYPE html><html> <head> <title>Tracker</title> <!-- Bootstrap CSS CDN --> <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> </head> <body class="bg-light text-center p-4"> <img style="border-radius: 6px;" class="mb-4" src="https://picsum.photos/300/200"> <div id="header-container" class="mb-4"> <h1 id="date" class="display-4"></h1> <h3><span id="day-indicator"></span>&nbsp;Day</h3> </div> <div id="exercises-container" class="card p-4 mx-auto mb-4" style="max-width: 400px;"> <h3 class="mb-3">Exercises</h3> <textarea class="form-control mb-4" id="todaysactivity" style="field-sizing: content;" readonly></textarea> <div> <input class="form-check-input" type="checkbox" id="status"> <span>Finished</span> </div> </div> <div id="protein-counter-container" class="card p-4 mx-auto mb-4" style="max-width: 400px;"> <h3 class="mb-3">Protein</h3> <div class="btn-group mb-3" role="group"> <button id="proteindecrementbyten" class="btn btn-dark">-10</button> <button id="proteindecrement" class="btn btn-secondary">-1</button> <span class="btn btn-outline-primary disabled"><span id="protein-counter">0</span>&nbsp;grams</span> <button id="proteinincrement" class="btn btn-secondary">+1</button> <button id="proteinincrementbyten" class="btn btn-dark">+10</button> </div> <p>Recommended amount:<span id="recommendedprotein"></span></p> </div> <div id="calorie-counter-container" class="card p-4 mx-auto mb-4" style="max-width: 400px;"> <h3 class="mb-3">Calorie</h3> <div class="btn-group mb-3" role="group"> <button id="caloriedecrementbyhundred" class="btn btn-dark">-100</button> <button id="caloriedecrementbyten" class="btn btn-secondary">-10</button> <span class="btn btn-outline-primary disabled"><span id="calorie-counter">0</span>&nbsp;cal</span> <button id="calorieincrementbyten" class="btn btn-secondary">+10</button> <button id="calorieincrementbyhundred" class="btn btn-dark">+100</button> </div> <p>Recommended amount:<span id="recommendedcalorie"></span></p> </div> <div id="food-note-container" class="card p-4 mx-auto mb-4" style="max-width: 400px;"> <h3 class="mb-3">Food Notes</h3> <form> <textarea class="form-control" id="food-note" rows="5"></textarea> </form> </div> <div id="stats-container" class="card p-4 mx-auto mb-4" style="max-width: 400px;"> <h3 class="mb-3">Stats</h3> <form> <div class="mb-3 text-start"> <label for="age" class="form-label">Age</label> <div class="input-group"> <input type="number" class="form-control" id="age" placeholder="Enter"> <span class="input-group-text">yrs</span> </div> </div> <div class="mb-3 text-start"> <label for="weight" class="form-label">Weight</label> <div class="input-group"> <input type="number" class="form-control" id="weight" placeholder="Enter"> <span class="input-group-text">kg</span> <span class="input-group-text"><span id="pounds"></span>&nbsp;lbs</span> </div> </div> <div class="mb-3 text-start"> <label for="height" class="form-label">Height</label> <div class="input-group"> <input type="number" class="form-control" id="height" placeholder="Enter"> <span class="input-group-text">cm</span> <span class="input-group-text"><span id="feet-inches"></span>&nbsp;feet</span> </div> </div> </form> </div> <div id="schedule-container" class="card p-4 mx-auto mb-4" style="max-width: 400px;"> <h3>Schedule</h3> <form> <div class="mb-3 text-start"> <div class="input-group"> <span class="input-group-text">Monday</span> <input type="text" class="form-control" id="monday" placeholder="Monday"> <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#mondayModal">+</button> </div> </div> <div class="mb-3 text-start"> <div class="input-group"> <span class="input-group-text">Tuesday</span> <input type="text" class="form-control" id="tuesday" placeholder="Tuesday"> <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#tuesdayModal">+</button> </div> </div> <div class="mb-3 text-start"> <div class="input-group"> <span class="input-group-text">Wednesday</span> <input type="text" class="form-control" id="wednesday" placeholder="Wednesday"> <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#wednesdayModal">+</button> </div> </div> <div class="mb-3 text-start"> <div class="input-group"> <span class="input-group-text">Thursday</span> <input type="text" class="form-control" id="thursday" placeholder="Thursday"> <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#thursdayModal">+</button> </div> </div> <div class="mb-3 text-start"> <div class="input-group"> <span class="input-group-text">Friday</span> <input type="text" class="form-control" id="friday" placeholder="Friday"> <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#fridayModal">+</button> </div> </div> <div class="mb-3 text-start"> <div class="input-group"> <span class="input-group-text">Saturday</span> <input type="text" class="form-control" id="saturday" placeholder="Saturday"> <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#saturdayModal">+</button> </div> </div> <div class="mb-3 text-start"> <div class="input-group"> <span class="input-group-text">Sunday</span> <input type="text" class="form-control" id="sunday" placeholder="Sunday"> <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#sundayModal">+</button> </div> </div> </form> </div> <div class="modal fade" id="mondayModal" tabindex="-1" aria-labelledby="mondayModalLabel" aria-hidden="true"> <div class="modal-dialog"> <div class="modal-content"> <div class="modal-header"> <h1 class="modal-title fs-5" id="mondayModalLabel">Monday</h1> <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> </div> <div class="modal-body"> <textarea class="form-control" id="monday-activities-edit" style="height:70vh"></textarea> </div> </div> </div> </div> <div class="modal fade" id="tuesdayModal" tabindex="-1" aria-labelledby="tuesdayModalLabel" aria-hidden="true"> <div class="modal-dialog"> <div class="modal-content"> <div class="modal-header"> <h1 class="modal-title fs-5" id="tuesdayModalLabel">Tuesday</h1> <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> </div> <div class="modal-body"> <textarea class="form-control" id="tuesday-activities-edit" style="height:70vh"></textarea> </div> </div> </div> </div> <div class="modal fade" id="wednesdayModal" tabindex="-1" aria-labelledby="wednesdayModalLabel" aria-hidden="true"> <div class="modal-dialog"> <div class="modal-content"> <div class="modal-header"> <h1 class="modal-title fs-5" id="wednesdayModalLabel">Wednesday</h1> <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> </div> <div class="modal-body"> <textarea class="form-control" id="wednesday-activities-edit" style="height:70vh"></textarea> </div> </div> </div> </div> <div class="modal fade" id="thursdayModal" tabindex="-1" aria-labelledby="thursdayModalLabel" aria-hidden="true"> <div class="modal-dialog"> <div class="modal-content"> <div class="modal-header"> <h1 class="modal-title fs-5" id="thursdayModalLabel">Thursday</h1> <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> </div> <div class="modal-body"> <textarea class="form-control" id="thursday-activities-edit" style="height:70vh"></textarea> </div> </div> </div> </div> <div class="modal fade" id="fridayModal" tabindex="-1" aria-labelledby="fridayModalLabel" aria-hidden="true"> <div class="modal-dialog"> <div class="modal-content"> <div class="modal-header"> <h1 class="modal-title fs-5" id="fridayModalLabel">Friday</h1> <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> </div> <div class="modal-body"> <textarea class="form-control" id="friday-activities-edit" style="height:70vh"></textarea> </div> </div> </div> </div> <div class="modal fade" id="saturdayModal" tabindex="-1" aria-labelledby="saturdayModalLabel" aria-hidden="true"> <div class="modal-dialog"> <div class="modal-content"> <div class="modal-header"> <h1 class="modal-title fs-5" id="saturdayModalLabel">Saturday</h1> <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> </div> <div class="modal-body"> <textarea class="form-control" id="saturday-activities-edit" style="height:70vh"></textarea> </div> </div> </div> </div> <div class="modal fade" id="sundayModal" tabindex="-1" aria-labelledby="sundayModalLabel" aria-hidden="true"> <div class="modal-dialog"> <div class="modal-content"> <div class="modal-header"> <h1 class="modal-title fs-5" id="sundayModalLabel">Sunday</h1> <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> </div> <div class="modal-body"> <textarea class="form-control" id="sunday-activities-edit" style="height:70vh"></textarea> </div> </div> </div> </div> <!-- Bootstrap JS Bundle CDN --> <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script> <script> window.addEventListener('DOMContentLoaded', () => { localStorage.setItem("food-notes", JSON.stringify()) const dateElement = document.getElementById('date'); const today = new Date(); const dateKey = today.toISOString().split('T')[0]; const dayIndex = today.getDay(); const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']; const todayDayId = days[dayIndex].toLowerCase(); dateElement.textContent = days[dayIndex]; const proteincounterEl = document.getElementById('protein-counter'); const proteinincrementBtn = document.getElementById('proteinincrement'); const proteinincrementbytenBtn = document.getElementById('proteinincrementbyten'); const proteindecrementBtn = document.getElementById('proteindecrement'); const proteindecrementbytenBtn = document.getElementById('proteindecrementbyten'); const savedProtein = JSON.parse(localStorage.getItem("protein-counter")) || {}; let proteincount = savedProtein[dateKey] || 0; proteincounterEl.textContent = proteincount; function saveProteinCount() { savedProtein[dateKey] = proteincount; localStorage.setItem("protein-counter", JSON.stringify(savedProtein)); } proteinincrementBtn.addEventListener('click', () => { proteincount++; proteincounterEl.textContent = proteincount; saveProteinCount(); }); proteindecrementBtn.addEventListener('click', () => { proteincount--; proteincounterEl.textContent = proteincount; saveProteinCount(); }); proteinincrementbytenBtn.addEventListener('click', () => { proteincount += 10; proteincounterEl.textContent = proteincount; saveProteinCount(); }); proteindecrementbytenBtn.addEventListener('click', () => { proteincount -= 10; proteincounterEl.textContent = proteincount; saveProteinCount(); }); const caloriecounterEl = document.getElementById('calorie-counter'); const calorieincrementbytenBtn = document.getElementById('calorieincrementbyten'); const calorieincrementbyhundredBtn = document.getElementById('calorieincrementbyhundred'); const caloriedecrementbytenBtn = document.getElementById('caloriedecrementbyten'); const caloriedecrementbyhundredBtn = document.getElementById('caloriedecrementbyhundred'); const savedCalorie = JSON.parse(localStorage.getItem("calorie-counter")) || {}; let caloriecount = savedCalorie[dateKey] || 0; caloriecounterEl.textContent = caloriecount; function saveCalorieCount() { savedCalorie[dateKey] = caloriecount; localStorage.setItem("calorie-counter", JSON.stringify(savedCalorie)); } calorieincrementbytenBtn.addEventListener('click', () => { caloriecount += 10; caloriecounterEl.textContent = caloriecount; saveCalorieCount(); }); caloriedecrementbytenBtn.addEventListener('click', () => { caloriecount -= 10; caloriecounterEl.textContent = caloriecount; saveCalorieCount(); }); calorieincrementbyhundredBtn.addEventListener('click', () => { caloriecount += 100; caloriecounterEl.textContent = caloriecount; saveCalorieCount(); }); caloriedecrementbyhundredBtn.addEventListener('click', () => { caloriecount -= 100; caloriecounterEl.textContent = caloriecount; saveCalorieCount(); }); const ageInput = document.getElementById('age'); const weightInput = document.getElementById('weight'); const heightInput = document.getElementById('height'); const yesterday = new Date(today); yesterday.setDate(today.getDate() - 1); const yesterdayKey = yesterday.toISOString().split('T')[0]; const allStats = JSON.parse(localStorage.getItem("user-stats")) || {}; if (!allStats[dateKey] || Object.keys(allStats[dateKey]).length === 0) { if (allStats[yesterdayKey]) { allStats[dateKey] = { ...allStats[yesterdayKey] }; localStorage.setItem("user-stats", JSON.stringify(allStats)); } else { allStats[dateKey] = {}; } } const todayStats = allStats[dateKey]; if (todayStats.age !== undefined) ageInput.value = todayStats.age; if (todayStats.weight !== undefined) weightInput.value = todayStats.weight; if (todayStats.height !== undefined) heightInput.value = todayStats.height; const lbconversion = document.getElementById('pounds'); lbconversion.textContent = Math.round(todayStats.weight * 2.205) const feetInchesEl = document.getElementById('feet-inches'); if (!isNaN(todayStats.height)) { const totalInches = todayStats.height / 2.54; const feet = Math.floor(totalInches / 12); const inches = Math.round(totalInches % 12); feetInchesEl.textContent = `${feet}'${inches}`; } else { feetInchesEl.textContent = 0; } function saveStats() { const weight = parseFloat(weightInput.value); const age = parseInt(ageInput.value); const height = parseFloat(heightInput.value); allStats[dateKey] = { age: isNaN(age) ? "" : age, weight: isNaN(weight) ? "" : weight, height: isNaN(height) ? "" : height }; localStorage.setItem("user-stats", JSON.stringify(allStats)); const lbconversion = document.getElementById('pounds'); if (!isNaN(weight)) { lbconversion.textContent = (weight * 2.205).toFixed(1); } else { lbconversion.textContent = 0; } const feetInchesEl = document.getElementById('feet-inches'); if (!isNaN(height)) { const totalInches = height / 2.54; const feet = Math.floor(totalInches / 12); const inches = Math.round(totalInches % 12); feetInchesEl.textContent = `${feet}'${inches}`; } else { feetInchesEl.textContent = 0; } } ageInput.addEventListener('input', saveStats); weightInput.addEventListener('input', saveStats); heightInput.addEventListener('input', saveStats); const tomorrow = new Date(today); tomorrow.setDate(today.getDate() + 1); const tomorrowKey = tomorrow.toISOString().split('T')[0]; allStats[tomorrowKey] = { ...allStats[dateKey] }; localStorage.setItem("user-stats", JSON.stringify(allStats)); const foodNotes = JSON.parse(localStorage.getItem("food-notes")) || {}; const foodNoteEl = document.getElementById('food-note'); foodNoteEl.value = foodNotes[dateKey]; foodNoteEl.addEventListener('input', saveFoodNote); function saveFoodNote() { foodNotes[dateKey] = foodNoteEl.value; localStorage.setItem("food-notes", JSON.stringify(foodNotes)); } const activities = JSON.parse(localStorage.getItem("activities")) || {}; const mondayActivities = document.getElementById('monday-activities-edit'); const tuesdayActivities = document.getElementById('tuesday-activities-edit'); const wednesdayActivities = document.getElementById('wednesday-activities-edit'); const thursdayActivities = document.getElementById('thursday-activities-edit'); const fridayActivities = document.getElementById('friday-activities-edit'); const saturdayActivities = document.getElementById('saturday-activities-edit'); const sundayActivities = document.getElementById('sunday-activities-edit'); mondayActivities.value = activities["monday"]; tuesdayActivities.value = activities["tuesday"]; wednesdayActivities.value = activities["wednesday"]; thursdayActivities.value = activities["thursdday"]; fridayActivities.value = activities["friday"]; saturdayActivities.value = activities["saturday"]; sundayActivities.value = activities["sunday"]; function saveMondayActivities(day) { activities["monday"] = mondayActivities.value; localStorage.setItem("activities", JSON.stringify(activities)); } function saveTuesdayActivities(day) { activities["tuesday"] = tuesdayActivities.value; localStorage.setItem("activities", JSON.stringify(activities)); } function saveWednesdayActivities(day) { activities["wednesday"] = wednesdayActivities.value; localStorage.setItem("activities", JSON.stringify(activities)); } function saveThursdayActivities(day) { activities["thursday"] = thursdayActivities.value; localStorage.setItem("activities", JSON.stringify(activities)); } function saveFridayActivities(day) { activities["friday"] = fridayActivities.value; localStorage.setItem("activities", JSON.stringify(activities)); } function saveSaturdayActivities(day) { activities["saturday"] = saturdayActivities.value; localStorage.setItem("activities", JSON.stringify(activities)); } function saveSundayActivities(day) { activities["sunday"] = sundayActivities.value; localStorage.setItem("activities", JSON.stringify(activities)); } mondayActivities.addEventListener('input', saveMondayActivities); tuesdayActivities.addEventListener('input', saveTuesdayActivities); wednesdayActivities.addEventListener('input', saveWednesdayActivities); thursdayActivities.addEventListener('input', saveThursdayActivities); fridayActivities.addEventListener('input', saveFridayActivities); saturdayActivities.addEventListener('input', saveSaturdayActivities); sundayActivities.addEventListener('input', saveSundayActivities); todaysActivities = document.getElementById("todaysactivity"); if (todayDayId === "monday") { todaysActivities.textContent = activities["monday"]; } if (todayDayId === "tuesday") { todaysActivities.textContent = activities["tuesday"]; } if (todayDayId === "wednesday") { todaysActivities.textContent = activities["wednesday"]; } if (todayDayId === "thursday") { todaysActivities.textContent = activities["thursday"]; } if (todayDayId === "friday") { todaysActivities.textContent = activities["friday"]; } if (todayDayId === "saturday") { todaysActivities.textContent = activities["saturday"]; } if (todayDayId === "sunday") { todaysActivities.textContent = activities["sunday"]; } const schedule = JSON.parse(localStorage.getItem("schedule")) || {}; const scheduleInputs = { monday: document.getElementById('monday'), tuesday: document.getElementById('tuesday'), wednesday: document.getElementById('wednesday'), thursday: document.getElementById('thursday'), friday: document.getElementById('friday'), saturday: document.getElementById('saturday'), sunday: document.getElementById('sunday') }; Object.keys(scheduleInputs).forEach(day => { scheduleInputs[day].value = schedule[day] || ''; const todayInput = scheduleInputs[todayDayId]; if (todayInput) { todayInput.classList.add('bg-success-subtle'); } scheduleInputs[day].addEventListener('input', () => { schedule[day] = scheduleInputs[day].value; localStorage.setItem("schedule", JSON.stringify(schedule)); }); }); const dayIndicatorEl = document.getElementById("day-indicator"); dayIndicatorEl.textContent = scheduleInputs[todayDayId].value || ''; const statuses = JSON.parse(localStorage.getItem("statuses")) || {}; const statusEl = document.getElementById("status"); function saveStatus() { statuses[dateKey] = statusEl.checked; localStorage.setItem("statuses", JSON.stringify(statuses)); } statusEl.addEventListener('input', saveStatus); }); </script> </body></html>
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Tracker</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body class="bg-light text-center p-4">
+        <img style="border-radius: 6px;" class="mb-4" src="https://picsum.photos/300/200">
+        <div id="header-container" class="mb-4">
+            <h1 id="date" class="display-4"></h1>
+            <h3><span id="day-indicator"></span>&nbsp;Day</h3>
+        </div>
+        <div id="exercises-container" class="card p-4 mx-auto mb-4" style="max-width: 400px;">
+            <h3 class="mb-3">Exercises</h3>
+            <textarea class="form-control mb-4" id="todaysactivity" style="field-sizing: content;" readonly></textarea>
+            <div>
+                <input class="form-check-input" type="checkbox" id="status">
+                <span>Finished</span>
+            </div>
+        </div>
+        <div id="protein-counter-container" class="card p-4 mx-auto mb-4" style="max-width: 400px;">
+            <h3 class="mb-3">Protein</h3>
+            <div class="btn-group mb-3" role="group">
+                <button id="proteindecrementbyten" class="btn btn-dark">-10</button>
+                <button id="proteindecrement" class="btn btn-secondary">-1</button>
+                <span class="btn btn-outline-primary disabled"><span id="protein-counter">0</span>&nbsp;grams</span>
+                <button id="proteinincrement" class="btn btn-secondary">+1</button>
+                <button id="proteinincrementbyten" class="btn btn-dark">+10</button>
+            </div>
+            <p>Recommended amount:<span id="recommendedprotein"></span></p>
+        </div>
+        <div id="calorie-counter-container" class="card p-4 mx-auto mb-4" style="max-width: 400px;">
+            <h3 class="mb-3">Calorie</h3>
+            <div class="btn-group mb-3" role="group">
+                <button id="caloriedecrementbyhundred" class="btn btn-dark">-100</button>
+                <button id="caloriedecrementbyten" class="btn btn-secondary">-10</button>
+                <span class="btn btn-outline-primary disabled"><span id="calorie-counter">0</span>&nbsp;cal</span>
+                <button id="calorieincrementbyten" class="btn btn-secondary">+10</button>
+                <button id="calorieincrementbyhundred" class="btn btn-dark">+100</button>
+            </div>
+            <p>Recommended amount:<span id="recommendedcalorie"></span></p>
+        </div>
+        <div id="food-note-container" class="card p-4 mx-auto mb-4" style="max-width: 400px;">
+            <h3 class="mb-3">Food Notes</h3>
+            <form>
+                <textarea class="form-control" id="food-note" rows="5"></textarea>
+            </form>
+        </div>
+        <div id="stats-container" class="card p-4 mx-auto mb-4" style="max-width: 400px;">
+            <h3 class="mb-3">Stats</h3>
+            <form>
+                <div class="mb-3 text-start">
+                    <label for="age" class="form-label">Age</label>
+                    <div class="input-group">
+                        <input type="number" class="form-control" id="age" placeholder="Enter">
+                        <span class="input-group-text">yrs</span>
+                    </div>
+                </div>
+                <div class="mb-3 text-start">
+                    <label for="weight" class="form-label">Weight</label>
+                    <div class="input-group">
+                        <input type="number" class="form-control" id="weight" placeholder="Enter">
+                        <span class="input-group-text">kg</span>
+                        <span class="input-group-text"><span id="pounds"></span>&nbsp;lbs</span>
+                    </div>
+                </div>
+                <div class="mb-3 text-start">
+                    <label for="height" class="form-label">Height</label>
+                    <div class="input-group">
+                        <input type="number" class="form-control" id="height" placeholder="Enter">
+                        <span class="input-group-text">cm</span>
+                        <span class="input-group-text"><span id="feet-inches"></span>&nbsp;feet</span>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div id="schedule-container" class="card p-4 mx-auto mb-4" style="max-width: 400px;">
+            <h3>Schedule</h3>
+            <form>
+                <div class="mb-3 text-start">
+                    <div class="input-group">
+                        <span class="input-group-text">Monday</span>
+                        <input type="text" class="form-control" id="monday" placeholder="Monday">
+                        <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#mondayModal">+</button>
+                    </div>
+                </div>
+                <div class="mb-3 text-start">
+                    <div class="input-group">
+                        <span class="input-group-text">Tuesday</span>
+                        <input type="text" class="form-control" id="tuesday" placeholder="Tuesday">
+                        <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#tuesdayModal">+</button>
+                    </div>
+                </div>
+                <div class="mb-3 text-start">
+                    <div class="input-group">
+                        <span class="input-group-text">Wednesday</span>
+                        <input type="text" class="form-control" id="wednesday" placeholder="Wednesday">
+                        <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#wednesdayModal">+</button>
+                    </div>
+                </div>
+                <div class="mb-3 text-start">
+                    <div class="input-group">
+                        <span class="input-group-text">Thursday</span>
+                        <input type="text" class="form-control" id="thursday" placeholder="Thursday">
+                        <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#thursdayModal">+</button>
+                    </div>
+                </div>
+                <div class="mb-3 text-start">
+                    <div class="input-group">
+                        <span class="input-group-text">Friday</span>
+                        <input type="text" class="form-control" id="friday" placeholder="Friday">
+                        <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#fridayModal">+</button>
+                    </div>
+                </div>
+                <div class="mb-3 text-start">
+                    <div class="input-group">
+                        <span class="input-group-text">Saturday</span>
+                        <input type="text" class="form-control" id="saturday" placeholder="Saturday">
+                        <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#saturdayModal">+</button>
+                    </div>
+                </div>
+                <div class="mb-3 text-start">
+                    <div class="input-group">
+                        <span class="input-group-text">Sunday</span>
+                        <input type="text" class="form-control" id="sunday" placeholder="Sunday">
+                        <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#sundayModal">+</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal fade" id="mondayModal" tabindex="-1" aria-labelledby="mondayModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="mondayModalLabel">Monday</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <textarea class="form-control" id="monday-activities-edit" style="height:70vh"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="tuesdayModal" tabindex="-1" aria-labelledby="tuesdayModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="tuesdayModalLabel">Tuesday</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <textarea class="form-control" id="tuesday-activities-edit" style="height:70vh"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="wednesdayModal" tabindex="-1" aria-labelledby="wednesdayModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="wednesdayModalLabel">Wednesday</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <textarea class="form-control" id="wednesday-activities-edit" style="height:70vh"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="thursdayModal" tabindex="-1" aria-labelledby="thursdayModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="thursdayModalLabel">Thursday</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <textarea class="form-control" id="thursday-activities-edit" style="height:70vh"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="fridayModal" tabindex="-1" aria-labelledby="fridayModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="fridayModalLabel">Friday</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <textarea class="form-control" id="friday-activities-edit" style="height:70vh"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="saturdayModal" tabindex="-1" aria-labelledby="saturdayModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="saturdayModalLabel">Saturday</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <textarea class="form-control" id="saturday-activities-edit" style="height:70vh"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="sundayModal" tabindex="-1" aria-labelledby="sundayModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="sundayModalLabel">Sunday</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <textarea class="form-control" id="sunday-activities-edit" style="height:70vh"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Bootstrap JS Bundle CDN -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        <script>
+            window.addEventListener('DOMContentLoaded', () => {
+            localStorage.setItem("food-notes", JSON.stringify())
+
+            const dateElement = document.getElementById('date');
+
+            const today = new Date();
+            const dateKey = today.toISOString().split('T')[0]; 
+            const dayIndex = today.getDay();
+            const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            const todayDayId = days[dayIndex].toLowerCase(); 
+            dateElement.textContent = days[dayIndex];
+
+            const proteincounterEl = document.getElementById('protein-counter');
+            const proteinincrementBtn = document.getElementById('proteinincrement');
+            const proteinincrementbytenBtn = document.getElementById('proteinincrementbyten');
+            const proteindecrementBtn = document.getElementById('proteindecrement');
+            const proteindecrementbytenBtn = document.getElementById('proteindecrementbyten');
+
+            const savedProtein = JSON.parse(localStorage.getItem("protein-counter")) || {};
+            let proteincount = savedProtein[dateKey] || 0;
+            proteincounterEl.textContent = proteincount;
+
+            function saveProteinCount() {
+                savedProtein[dateKey] = proteincount;
+                localStorage.setItem("protein-counter", JSON.stringify(savedProtein));
+            }
+
+            proteinincrementBtn.addEventListener('click', () => {
+                proteincount++;
+                proteincounterEl.textContent = proteincount;
+                saveProteinCount();
+            });
+            proteindecrementBtn.addEventListener('click', () => {
+                proteincount--;
+                proteincounterEl.textContent = proteincount;
+                saveProteinCount();
+            });
+            proteinincrementbytenBtn.addEventListener('click', () => {
+                proteincount += 10;
+                proteincounterEl.textContent = proteincount;
+                saveProteinCount();
+            });
+            proteindecrementbytenBtn.addEventListener('click', () => {
+                proteincount -= 10;
+                proteincounterEl.textContent = proteincount;
+                saveProteinCount();
+            });
+
+            const caloriecounterEl = document.getElementById('calorie-counter');
+            const calorieincrementbytenBtn = document.getElementById('calorieincrementbyten');
+            const calorieincrementbyhundredBtn = document.getElementById('calorieincrementbyhundred');
+            const caloriedecrementbytenBtn = document.getElementById('caloriedecrementbyten');
+            const caloriedecrementbyhundredBtn = document.getElementById('caloriedecrementbyhundred');
+
+            const savedCalorie = JSON.parse(localStorage.getItem("calorie-counter")) || {};
+            let caloriecount = savedCalorie[dateKey] || 0;
+            caloriecounterEl.textContent = caloriecount;
+
+            function saveCalorieCount() {
+                savedCalorie[dateKey] = caloriecount;
+                localStorage.setItem("calorie-counter", JSON.stringify(savedCalorie));
+            }
+
+            calorieincrementbytenBtn.addEventListener('click', () => {
+                caloriecount += 10;
+                caloriecounterEl.textContent = caloriecount;
+                saveCalorieCount();
+            });
+            caloriedecrementbytenBtn.addEventListener('click', () => {
+                caloriecount -= 10;
+                caloriecounterEl.textContent = caloriecount;
+                saveCalorieCount();
+            });
+            calorieincrementbyhundredBtn.addEventListener('click', () => {
+                caloriecount += 100;
+                caloriecounterEl.textContent = caloriecount;
+                saveCalorieCount();
+            });
+            caloriedecrementbyhundredBtn.addEventListener('click', () => {
+                caloriecount -= 100;
+                caloriecounterEl.textContent = caloriecount;
+                saveCalorieCount();
+            });
+
+            const ageInput = document.getElementById('age');
+            const weightInput = document.getElementById('weight');
+            const heightInput = document.getElementById('height');
+
+            const yesterday = new Date(today);
+            yesterday.setDate(today.getDate() - 1);
+            const yesterdayKey = yesterday.toISOString().split('T')[0];
+
+            const allStats = JSON.parse(localStorage.getItem("user-stats")) || {};
+
+            if (!allStats[dateKey] || Object.keys(allStats[dateKey]).length === 0) {
+                if (allStats[yesterdayKey]) {
+                    allStats[dateKey] = { ...allStats[yesterdayKey] };
+                    localStorage.setItem("user-stats", JSON.stringify(allStats));
+                } else {
+                    allStats[dateKey] = {};
+                }
+            }
+
+            const todayStats = allStats[dateKey];
+
+            if (todayStats.age !== undefined) ageInput.value = todayStats.age;
+            if (todayStats.weight !== undefined) weightInput.value = todayStats.weight;
+            if (todayStats.height !== undefined) heightInput.value = todayStats.height;
+
+            const lbconversion = document.getElementById('pounds');
+            lbconversion.textContent = Math.round(todayStats.weight * 2.205)
+
+            const feetInchesEl = document.getElementById('feet-inches');
+            if (!isNaN(todayStats.height)) {
+                const totalInches = todayStats.height / 2.54;
+                const feet = Math.floor(totalInches / 12);
+                const inches = Math.round(totalInches % 12);
+                feetInchesEl.textContent = `${feet}'${inches}`;
+            } else {
+                feetInchesEl.textContent = 0;
+            }
+
+            function saveStats() {
+                const weight = parseFloat(weightInput.value);
+                const age = parseInt(ageInput.value);
+                const height = parseFloat(heightInput.value); 
+
+                allStats[dateKey] = {
+                    age: isNaN(age) ? "" : age,
+                    weight: isNaN(weight) ? "" : weight,
+                    height: isNaN(height) ? "" : height
+                };
+                localStorage.setItem("user-stats", JSON.stringify(allStats));
+
+                const lbconversion = document.getElementById('pounds');
+                if (!isNaN(weight)) {
+                    lbconversion.textContent = (weight * 2.205).toFixed(1);
+                } else {
+                    lbconversion.textContent = 0;
+                }
+
+                const feetInchesEl = document.getElementById('feet-inches');
+                if (!isNaN(height)) {
+                    const totalInches = height / 2.54;
+                    const feet = Math.floor(totalInches / 12);
+                    const inches = Math.round(totalInches % 12);
+                    feetInchesEl.textContent = `${feet}'${inches}`;
+                } else {
+                    feetInchesEl.textContent = 0;
+                }
+            }
+
+            ageInput.addEventListener('input', saveStats);
+            weightInput.addEventListener('input', saveStats);
+            heightInput.addEventListener('input', saveStats);
+
+            const tomorrow = new Date(today);
+            tomorrow.setDate(today.getDate() + 1);
+            const tomorrowKey = tomorrow.toISOString().split('T')[0];
+
+            allStats[tomorrowKey] = { ...allStats[dateKey] };
+            localStorage.setItem("user-stats", JSON.stringify(allStats));
+
+            const foodNotes = JSON.parse(localStorage.getItem("food-notes")) || {};
+            const foodNoteEl = document.getElementById('food-note');
+
+            foodNoteEl.value = foodNotes[dateKey];
+
+            foodNoteEl.addEventListener('input', saveFoodNote);
+
+            function saveFoodNote() {
+                foodNotes[dateKey] = foodNoteEl.value;
+                localStorage.setItem("food-notes", JSON.stringify(foodNotes));
+            }
+
+            const activities = JSON.parse(localStorage.getItem("activities")) || {};
+
+            const mondayActivities = document.getElementById('monday-activities-edit');
+            const tuesdayActivities = document.getElementById('tuesday-activities-edit');
+            const wednesdayActivities = document.getElementById('wednesday-activities-edit');
+            const thursdayActivities = document.getElementById('thursday-activities-edit');
+            const fridayActivities = document.getElementById('friday-activities-edit');
+            const saturdayActivities = document.getElementById('saturday-activities-edit');
+            const sundayActivities = document.getElementById('sunday-activities-edit');
+
+            mondayActivities.value = activities["monday"];
+            tuesdayActivities.value = activities["tuesday"];
+            wednesdayActivities.value = activities["wednesday"];
+            thursdayActivities.value = activities["thursdday"];
+            fridayActivities.value = activities["friday"];
+            saturdayActivities.value = activities["saturday"];
+            sundayActivities.value = activities["sunday"];
+
+            function saveMondayActivities(day) {
+                activities["monday"] = mondayActivities.value;
+                localStorage.setItem("activities", JSON.stringify(activities));
+            }
+
+            function saveTuesdayActivities(day) {
+                activities["tuesday"] = tuesdayActivities.value;
+                localStorage.setItem("activities", JSON.stringify(activities));
+            }
+
+            function saveWednesdayActivities(day) {
+                activities["wednesday"] = wednesdayActivities.value;
+                localStorage.setItem("activities", JSON.stringify(activities));
+            }
+
+            function saveThursdayActivities(day) {
+                activities["thursday"] = thursdayActivities.value;
+                localStorage.setItem("activities", JSON.stringify(activities));
+            }
+
+            function saveFridayActivities(day) {
+                activities["friday"] = fridayActivities.value;
+                localStorage.setItem("activities", JSON.stringify(activities));
+            }
+
+            function saveSaturdayActivities(day) {
+                activities["saturday"] = saturdayActivities.value;
+                localStorage.setItem("activities", JSON.stringify(activities));
+            }
+
+            function saveSundayActivities(day) {
+                activities["sunday"] = sundayActivities.value;
+                localStorage.setItem("activities", JSON.stringify(activities));
+            }
+
+            mondayActivities.addEventListener('input', saveMondayActivities);
+            tuesdayActivities.addEventListener('input', saveTuesdayActivities);
+            wednesdayActivities.addEventListener('input', saveWednesdayActivities);
+            thursdayActivities.addEventListener('input', saveThursdayActivities);
+            fridayActivities.addEventListener('input', saveFridayActivities);
+            saturdayActivities.addEventListener('input', saveSaturdayActivities);
+            sundayActivities.addEventListener('input', saveSundayActivities);
+
+            todaysActivities = document.getElementById("todaysactivity");
+            if (todayDayId === "monday") {
+                todaysActivities.textContent = activities["monday"];
+            }
+
+            if (todayDayId === "tuesday") {
+                todaysActivities.textContent = activities["tuesday"];
+            }
+
+            if (todayDayId === "wednesday") {
+                todaysActivities.textContent = activities["wednesday"];
+            }
+
+            if (todayDayId === "thursday") {
+                todaysActivities.textContent = activities["thursday"];
+            }
+
+            if (todayDayId === "friday") {
+                todaysActivities.textContent = activities["friday"];
+            }
+
+            if (todayDayId === "saturday") {
+                todaysActivities.textContent = activities["saturday"];
+            }
+
+            if (todayDayId === "sunday") {
+                todaysActivities.textContent = activities["sunday"];
+            }
+
+            const schedule = JSON.parse(localStorage.getItem("schedule")) || {};
+
+            const scheduleInputs = {
+                monday: document.getElementById('monday'),
+                tuesday: document.getElementById('tuesday'),
+                wednesday: document.getElementById('wednesday'),
+                thursday: document.getElementById('thursday'),
+                friday: document.getElementById('friday'),
+                saturday: document.getElementById('saturday'),
+                sunday: document.getElementById('sunday')
+            };
+
+            Object.keys(scheduleInputs).forEach(day => {
+                scheduleInputs[day].value = schedule[day] || '';
+
+                const todayInput = scheduleInputs[todayDayId];
+                if (todayInput) {
+                    todayInput.classList.add('bg-success-subtle');
+                }
+
+                scheduleInputs[day].addEventListener('input', () => {
+                    schedule[day] = scheduleInputs[day].value;
+                    localStorage.setItem("schedule", JSON.stringify(schedule));
+                });
+            });
+
+            const dayIndicatorEl = document.getElementById("day-indicator");
+            dayIndicatorEl.textContent = scheduleInputs[todayDayId].value || '';
+
+            const statuses = JSON.parse(localStorage.getItem("statuses")) || {};
+            const statusEl = document.getElementById("status");
+
+            function saveStatus() {
+                statuses[dateKey] = statusEl.checked;
+                localStorage.setItem("statuses", JSON.stringify(statuses));
+            }
+
+            statusEl.addEventListener('input', saveStatus);
+            });
+        </script>
+    </body>
+</html>
