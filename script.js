@@ -317,7 +317,12 @@ window.addEventListener('DOMContentLoaded', () => {
     });
     
     const dayIndicatorEl = document.getElementById("day-indicator");
-    dayIndicatorEl.textContent = scheduleInputs[todayDayId].value || '';
+    if (scheduleInputs[todayDayId].value === "") {
+        dayIndicatorEl.style.display = "none"
+    } else {
+        dayIndicatorEl.style.display = "block"
+        dayIndicatorEl.textContent = scheduleInputs[todayDayId].value;
+    }
 
     // Finished check box
     const statuses = JSON.parse(localStorage.getItem("statuses")) || {};
